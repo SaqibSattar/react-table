@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import './App.css'
+import { BasicTable } from './components/BasicTable'
 
 function App() {
 
   return (
     <>
-
+      <BasicTable />
     </>
   )
 }
