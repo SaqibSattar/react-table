@@ -12,6 +12,7 @@ export const BasicTable = () => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
+    footerGroups,
     rows,
     prepareRow
   } = useTable({
@@ -24,9 +25,9 @@ export const BasicTable = () => {
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                <th key={column.id} {...column.getHeaderProps()}>{column.render('Header')}</th>
               ))}
             </tr>
           ))}
@@ -35,14 +36,23 @@ export const BasicTable = () => {
           {rows.map(row => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()}>
+              <tr key={row.id} {...row.getRowProps()}>
                 {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  return <td key={cell.column.id} {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 })}
               </tr>
             )
           })}
         </tbody>
+        <tfoot>
+          {footerGroups.map(footerGroup => (
+            <tr key={footerGroup.id} {...footerGroup.getFooterGroupProps()}>
+              {footerGroup.headers.map(column => (
+                <td key={column.id} {...column.getFooterProps()}>{column.render('Footer')}</td>
+              ))}
+            </tr>
+          ))}
+        </tfoot>
       </table>
     </>
   )
