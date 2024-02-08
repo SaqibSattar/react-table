@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTable, useGlobalFilter, useFilters } from 'react-table';
 import MOCK_DATA from './MOCK_DATA.json';
 import { COLUMNS } from './columns';
@@ -7,8 +7,9 @@ import { GlobalFilter } from './GlobalFilter'
 import { ColumnFilter } from './ColumnFilter'
 
 export const FilteringTable = () => {
+  const [data, setData] = useState(MOCK_DATA); // Use state to manage data
+
   const columns = useMemo(() => COLUMNS, []);
-  const data = useMemo(() => MOCK_DATA, []);
 
   
   const defaultColumn = React.useMemo(
@@ -17,6 +18,12 @@ export const FilteringTable = () => {
     }),
     []
   )
+
+  const handleDelete = (id) => {
+    // Filter out the row with the given id and update the data
+    setData((prevData) => prevData.filter((row) => row.id !== id));
+  };
+
 
   const {
     getTableProps,
@@ -59,14 +66,19 @@ export const FilteringTable = () => {
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr key={row.id} {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <td key={cell.column.id} {...cell.getCellProps()}>
-                    {cell.render('Cell')}
+                <tr key={row.id} {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <td key={cell.column.id} {...cell.getCellProps()}>
+                      {cell.render('Cell')}
+                    </td>
+                  ))}
+                  <td>
+                    <button onClick={() => handleDelete(row.original.id)}>
+                      Delete
+                    </button>
                   </td>
-                ))}
-              </tr>
-            );
+                </tr>
+              );
           })}
         </tbody>
         <tfoot>
