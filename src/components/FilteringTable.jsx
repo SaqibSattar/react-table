@@ -10,6 +10,7 @@ export const FilteringTable = () => {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => MOCK_DATA, []);
 
+  
   const defaultColumn = React.useMemo(
     () => ({
       Filter: ColumnFilter
