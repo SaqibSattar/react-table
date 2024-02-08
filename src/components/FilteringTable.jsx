@@ -1,13 +1,21 @@
 import React, { useMemo } from 'react';
-import { useTable, useGlobalFilter } from 'react-table';
+import { useTable, useGlobalFilter, useFilters } from 'react-table';
 import MOCK_DATA from './MOCK_DATA.json';
 import { COLUMNS } from './columns';
 import './table.css';
-import { GlobalFilter } from './GlobalFilter';
+import { GlobalFilter } from './GlobalFilter'
+import { ColumnFilter } from './ColumnFilter'
 
 export const FilteringTable = () => {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => MOCK_DATA, []);
+
+  const defaultColumn = React.useMemo(
+    () => ({
+      Filter: ColumnFilter
+    }),
+    []
+  )
 
   const {
     getTableProps,
@@ -16,14 +24,16 @@ export const FilteringTable = () => {
     footerGroups,
     rows,
     prepareRow,
-    state, // Ensure you are using the state object
-    setGlobalFilter, // Ensure you are using the setGlobalFilter function
+    state,
+    setGlobalFilter,
   } = useTable(
     {
       columns,
       data,
+      defaultColumn
     },
-    useGlobalFilter
+    useFilters,
+    useGlobalFilter,
   );
 
   const { globalFilter } = state;
@@ -38,6 +48,7 @@ export const FilteringTable = () => {
               {headerGroup.headers.map((column) => (
                 <th key={column.id} {...column.getHeaderProps()}>
                   {column.render('Header')}
+                  <div>{column.canFilter ? column.render('Filter') : null}</div>
                 </th>
               ))}
             </tr>
