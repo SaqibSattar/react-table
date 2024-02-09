@@ -5,6 +5,7 @@ import { SortingTable } from './components/SortingTable'
 import { FilteringTable } from './components/FilteringTable'
 import { PaginationTable } from './components/PaginationTable'
 import { RowSelection } from './components/RowSelection'
+import { ColumnOrder } from './components/ColumnOrder'
 
 function App() {
 
@@ -13,8 +14,9 @@ function App() {
       {/* <BasicTable />
       <SortingTable />
       <FilteringTable />
-      <PaginationTable /> */}
-      <RowSelection />
+      <PaginationTable />
+      <RowSelection /> */}
+      <ColumnOrder/>
     </>
   )
 }
